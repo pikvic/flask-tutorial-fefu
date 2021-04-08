@@ -1,6 +1,6 @@
 python -m venv venv
 venv\Scripts\activate
-pip install flask
+pip install -r requirements
 pip freeze > requirements.txt
 set FLASK_APP=app
 set FLASK_DEBUG=1
