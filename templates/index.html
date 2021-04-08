@@ -25,11 +25,13 @@
         var btnSend = document.getElementById("btnSend")
         var mouse = { x:0, y:0};
         var draw = false;
-        
+        context.fillStyle = "white";
+        context.fillRect(0, 0, w, h);
+
         btnSend.addEventListener("mousedown", function(e){
             var canvas = document.getElementById("myCanvas")
-            var dataURL = canvas.toDataURL()
-            fetch("http://127.0.0.1:5000/upload", {
+            var dataURL = canvas.toDataURL("image/jpg")
+            result = fetch("http://127.0.0.1:5000/upload", {
                 method: "POST",
                 headers: {
                     "contentType": "application/json"
@@ -38,8 +40,9 @@
                     image: dataURL
                 })
             }).then((response) => {
-    return response.json();
-  })
+            return response.json();
+        })
+            result.then((res) => {console.log(res)})
             console.log("sent")
         })
 
