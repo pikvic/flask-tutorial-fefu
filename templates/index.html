@@ -22,10 +22,27 @@
             context = canvas.getContext("2d"),
             w = canvas.width,
             h=canvas.height;
-        var btnSend = document.getElementById("btnSend")    
+        var btnSend = document.getElementById("btnSend")
         var mouse = { x:0, y:0};
         var draw = false;
         
+        btnSend.addEventListener("mousedown", function(e){
+            var canvas = document.getElementById("myCanvas")
+            var dataURL = canvas.toDataURL()
+            fetch("http://127.0.0.1:5000/upload", {
+                method: "POST",
+                headers: {
+                    "contentType": "application/json"
+                },
+                body: JSON.stringify({
+                    image: dataURL
+                })
+            }).then((response) => {
+    return response.json();
+  })
+            console.log("sent")
+        })
+
         canvas.addEventListener("mousedown", function(e){
             
             mouse.x = e.pageX - this.offsetLeft;
