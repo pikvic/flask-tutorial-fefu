@@ -42,12 +42,12 @@ def upload():
     digit = np.argmax(result[0])
     number = sessions[session_id]
     res = {
-        "digit": digit,
-        "number": number,
+        "digit": str(digit),
+        "number": str(number),
         "result": str(result)
     }
     if digit == number:
-        res["success": True]
+        res["success"] = True
     else:
-        res["success": False]
+        res["success"] = False
     return make_response(jsonify(res), 200)
