@@ -7,27 +7,33 @@
     <title>MySite</title>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>
-        <ul>
-        {% for i in range(5) %}
-        <li>{{ text }} {{ i }}</li>    
-        {% endfor %}
-        </ul>
-    </p>
+    <h1>Crazy Captcha</h1>
+    <span style="display: none;" id="session">{{ session }}</span>
+    <h2>Нарисуйте цифру {{ number }}</h2>
     <canvas id="myCanvas" width="200" height="200" style="border:1px solid #000000;"></canvas>
     <br><button id="btnSend">Отправить</button>
-    <br><span id="result"></span>
+    <button id="btnClear">Очистить</button>
+    <br><h3><span id="result"></span></h3>
     <script>
         var canvas = document.getElementById("myCanvas"), 
             context = canvas.getContext("2d"),
             w = canvas.width,
             h=canvas.height;
+            session = document.getElementById("session").textContent
         var btnSend = document.getElementById("btnSend")
+        var btnClear = document.getElementById("btnClear")
         var mouse = { x:0, y:0};
         var draw = false;
+        context.lineWidth = 10;
         context.fillStyle = "white";
         context.fillRect(0, 0, w, h);
+
+        btnClear.addEventListener("mousedown", function(e){
+            context.fillStyle = "white";
+            context.fillRect(0, 0, w, h);
+        })
+
+
 
         btnSend.addEventListener("mousedown", function(e){
             var canvas = document.getElementById("myCanvas")
@@ -35,7 +41,8 @@
             result = fetch("http://127.0.0.1:5000/upload", {
                 method: "POST",
                 headers: {
-                    "contentType": "application/json"
+                    "contentType": "application/json",
+                    "session": session
                 },
                 body: JSON.stringify({
                     image: dataURL
@@ -44,14 +51,19 @@
             return response.json();
         })
             result.then((res) => {
-                text = res["digit"].toString() + " " + res["result"].toString();
-                document.getElementById("result").textContent = text;
+                //text = res["digit"].toString() + " " + res["number"].toString() + " " + res["result"].toString();
+                if (res["success"]) {
+                    document.getElementById("result").textContent = "Верно";
+                }
+                else {
+                    document.getElementById("result").textContent = "Неверно";
+                }
                 console.log(res);
             })
             console.log("sent")
         })
 
-        canvas.addEventListener("mousedown", function(e){
+        canvas.addEventListener("pointerdown", function(e){
             
             mouse.x = e.pageX - this.offsetLeft;
             mouse.y = e.pageY - this.offsetTop;
@@ -59,7 +71,7 @@
             context.beginPath();
             context.moveTo(mouse.x, mouse.y);
         });
-        canvas.addEventListener("mousemove", function(e){
+        canvas.addEventListener("pointermove", function(e){
             
             if(draw==true){
             
@@ -69,7 +81,7 @@
                 context.stroke();
             }
         });
-        canvas.addEventListener("mouseup", function(e){
+        canvas.addEventListener("pointerup", function(e){
             
             mouse.x = e.pageX - this.offsetLeft;
             mouse.y = e.pageY - this.offsetTop;
@@ -79,6 +91,7 @@
             draw = false;
         });
     
+
     </script>
 </body>
 </html>
