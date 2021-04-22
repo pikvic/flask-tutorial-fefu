@@ -7,7 +7,7 @@ click==7.1.2
 Flask==1.1.2
 flatbuffers==1.12
 gast==0.3.3
-google-auth==1.28.1
+google-auth==1.29.0
 google-auth-oauthlib==0.4.4
 google-pasta==0.2.0
 grpcio==1.32.0
@@ -21,7 +21,6 @@ Markdown==3.3.4
 MarkupSafe==1.1.1
 numpy==1.19.5
 oauthlib==3.1.0
-opencv-python==4.5.1.48
 opt-einsum==3.3.0
 Pillow==8.2.0
 protobuf==3.15.8
@@ -31,9 +30,10 @@ requests==2.25.1
 requests-oauthlib==1.3.0
 rsa==4.7.2
 six==1.15.0
-tensorboard
+tensorboard==2.5.0
+tensorboard-data-server==0.6.0
 tensorboard-plugin-wit==1.8.0
-tensorflow-cpu
+tensorflow-cpu==2.4.1
 tensorflow-estimator==2.4.0
 termcolor==1.1.0
 typing-extensions==3.7.4.3
